@@ -7,24 +7,62 @@ import {
   TouchableOpacity,
   Platform
 } from 'react-native';
-
 import {
   iOSColors,
   human,
   iOSUIKit,
   systemWeights
 } from 'react-native-typography';
-
+import axios from 'axios';
 import { Icon } from 'expo';
+
+import CardFood from '../components/CardFood';
+
+
+const token = '29l1GH32Y2MBz_x1NHaMYe-QY0YQvAyVkx1OwmCQXIAUw8Q93xYlj8GNBI6Kc-HWVLnRHr3Bj1i_9CR4iormr-LQm5CLmywKSde_WY6miWl5B4pgTLAX7Z-ht2bQXHYx';
+
+const config = {
+  headers: {'Authorization': `Bearer ${token}`},
+  params: {
+    location: 'Lima'
+  }
+};
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
 
-  state = {}
+  state = {
+    categories: [
+      {"id": "1", "title": "Postres", "icon": ""},
+      {"id": "2", "title": "Helados", "icon": ""},
+      {"id": "3", "title": "Fast Food", "icon": ""},
+      {"id": "4", "title": "Hamburquesa", "icon": ""},
+      {"id": "5", "title": "Pizza", "icon": ""},
+    ],
+    today: [],
+    all: [],
+  }
+
+  componentWillMount() {
+    axios.get('https://api.yelp.com/v3/businesses/search', config)
+      .then(response => {
+        
+        console.log(response.data.businesses);
+        
+        this.setState({
+          all: response.data.businesses,
+          today: response.data.businesses[5]
+        })
+      })
+      .catch(error => console.log(error))
+  }
 
   render() {
+
+    const { today, all } = this.state;
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -60,7 +98,25 @@ export default class HomeScreen extends React.Component {
 
           <Text style={styles.recentlyTitle}>Plato del dia</Text>
 
+          <TouchableOpacity>
+            <CardFood name={today.name} time={today.review_count} img={today.image_url} price={9.99} />
+          </TouchableOpacity>
+
           <Text style={styles.recentlyTitle}>Todo el restaurante</Text>
+          <ScrollView horizontal>
+            {
+              all.map((d, i) => {
+                return (
+                  <TouchableOpacity key={i}>
+                    <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal={true}/>
+                  </TouchableOpacity>
+                )
+              })
+            }
+          </ScrollView> 
+         
+
+
         </ScrollView>
       </View>
     );
