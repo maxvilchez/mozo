@@ -1,8 +1,14 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import {
+  Platform, StatusBar, StyleSheet, View
+} from 'react-native';
 import { AppLoading } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+import { Provider } from 'react-redux';
+import AppNavigator from './app/navigation/AppNavigator';
 
+import configureStore from './configureStore';
+
+const store = configureStore();
 
 export default class App extends React.Component {
   state = {
@@ -18,21 +24,22 @@ export default class App extends React.Component {
           onFinish={this._handleFinishLoading}
         />
       );
-    } else {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      );
     }
+    return (
+      <View style={styles.container}>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <Provider store={store}>
+          <AppNavigator />
+        </Provider>
+      </View>
+    );
   }
 
   _loadResourcesAsync = async () => {
-    
+
   };
 
-  _handleLoadingError = error => {
+  _handleLoadingError = (error) => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
     console.warn(error);

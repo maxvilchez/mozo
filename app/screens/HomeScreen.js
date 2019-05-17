@@ -13,56 +13,23 @@ import {
   iOSUIKit,
   systemWeights
 } from 'react-native-typography';
-import axios from 'axios';
 import { Icon } from 'expo';
+import { connect } from 'react-redux';
+import { fetchData } from '../actions';
 
 import CardFood from '../components/CardFood';
 
-
-const token = '29l1GH32Y2MBz_x1NHaMYe-QY0YQvAyVkx1OwmCQXIAUw8Q93xYlj8GNBI6Kc-HWVLnRHr3Bj1i_9CR4iormr-LQm5CLmywKSde_WY6miWl5B4pgTLAX7Z-ht2bQXHYx';
-
-const config = {
-  headers: {'Authorization': `Bearer ${token}`},
-  params: {
-    location: 'Lima'
-  }
-};
-
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
 
-  state = {
-    categories: [
-      {"id": "1", "title": "Postres", "icon": ""},
-      {"id": "2", "title": "Helados", "icon": ""},
-      {"id": "3", "title": "Fast Food", "icon": ""},
-      {"id": "4", "title": "Hamburquesa", "icon": ""},
-      {"id": "5", "title": "Pizza", "icon": ""},
-    ],
-    today: [],
-    all: [],
-  }
-
   componentWillMount() {
-    axios.get('https://api.yelp.com/v3/businesses/search', config)
-      .then(response => {
-        
-        console.log(response.data.businesses);
-        
-        this.setState({
-          all: response.data.businesses,
-          today: response.data.businesses[5]
-        })
-      })
-      .catch(error => console.log(error))
+    this.props.fetchData();
   }
 
   render() {
-
-    const { today, all } = this.state;
-
+    const { menus } = this.props.data;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -81,11 +48,14 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <Icon.Ionicons
-                  name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'}
-                  size={28}
-                  style={styles.headerIcon}
-                />
+                <View style={{ position: 'relative' }}>
+                  <Text style={styles.badge}> 2 </Text>
+                  <Icon.Ionicons
+                    name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'}
+                    size={28}
+                    style={styles.headerIcon}
+                  />
+                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -98,24 +68,21 @@ export default class HomeScreen extends React.Component {
 
           <Text style={styles.recentlyTitle}>Plato del dia</Text>
 
+          {menus.length > 0 && (
           <TouchableOpacity>
-            <CardFood name={today.name} time={today.review_count} img={today.image_url} price={9.99} />
+            <CardFood name={menus[3].name} time={menus[3].review_count} img={menus[3].image_url} price={9.99} />
           </TouchableOpacity>
-
+          )}
           <Text style={styles.recentlyTitle}>Todo el restaurante</Text>
           <ScrollView horizontal>
             {
-              all.map((d, i) => {
-                return (
-                  <TouchableOpacity key={i}>
-                    <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal={true}/>
-                  </TouchableOpacity>
-                )
-              })
+              menus.map(d => (
+                <TouchableOpacity key={d.id}>
+                  <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal />
+                </TouchableOpacity>
+              ))
             }
-          </ScrollView> 
-         
-
+          </ScrollView>
 
         </ScrollView>
       </View>
@@ -163,5 +130,27 @@ const styles = StyleSheet.create({
   textNormalGray: {
     ...human.footnoteObject,
     color: iOSColors.gray
+  },
+  badge: {
+    color: '#fff',
+    position: 'absolute',
+    zIndex: 10,
+    bottom: 0,
+    right: 10,
+    width: 20,
+    height: 20,
+    textAlign: 'center',
+    backgroundColor: 'red',
+    borderRadius: 50
   }
 });
+
+const mapStateToProps = state => ({
+  data: state.data
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchData: () => dispatch(fetchData())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
