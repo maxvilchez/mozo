@@ -10,10 +10,11 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import OrdenScreen from '../screens/OrdenScreen';
 import DetailScreen from '../screens/DetailScreen';
-
+import ListDetailsScreen from '../screens/ListDetailsScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  ListDetails: ListDetailsScreen,
   Detail: DetailScreen
 });
 

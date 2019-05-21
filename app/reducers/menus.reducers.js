@@ -9,7 +9,7 @@ const initialState = {
   menus: [],
 };
 
-const dataReducer = (state = initialState, action) => {
+const menusReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCHING_DATA:
       return {
@@ -40,4 +40,4 @@ const dataReducer = (state = initialState, action) => {
   }
 };
 
-export default dataReducer;
+export default menusReducer;

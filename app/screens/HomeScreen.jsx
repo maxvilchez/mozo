@@ -15,6 +15,7 @@ import {
 } from 'react-native-typography';
 import { Icon } from 'expo';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { fetchData } from '../actions';
 
 import CardFood from '../components/CardFood';
@@ -25,7 +26,7 @@ class HomeScreen extends React.Component {
   };
 
   componentWillMount() {
-    this.props.fetchData();
+    this.props.actions.fetchData();
   }
 
   render() {
@@ -67,9 +68,10 @@ class HomeScreen extends React.Component {
           <Text style={styles.recentlyTitle}>Categorias</Text>
 
           <Text style={styles.recentlyTitle}>Plato del dia</Text>
-
           {menus.length > 0 && (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Detail', { id: menus[3].id })}
+          >
             <CardFood name={menus[3].name} time={menus[3].review_count} img={menus[3].image_url} price={9.99} />
           </TouchableOpacity>
           )}
@@ -149,8 +151,11 @@ const mapStateToProps = state => ({
   data: state.data
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchData: () => dispatch(fetchData())
-});
+const mapDispatchToProps = (dispatch) => {
+  const actions = {
+    fetchData: bindActionCreators(fetchData, dispatch),
+  };
+  return { actions };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

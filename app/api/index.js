@@ -7,6 +7,7 @@ const query = Object.keys(params)
   .join('&');
 
 const MENUS = `https://api.yelp.com/v3/businesses/search?${query}`;
+const MENU_DETAIL = 'https://api.yelp.com/v3/businesses/';
 const TOKEN = '29l1GH32Y2MBz_x1NHaMYe-QY0YQvAyVkx1OwmCQXIAUw8Q93xYlj8GNBI6Kc-HWVLnRHr3Bj1i_9CR4iormr-LQm5CLmywKSde_WY6miWl5B4pgTLAX7Z-ht2bQXHYx';
 
 
@@ -15,7 +16,8 @@ const config = {
   headers: { Authorization: `Bearer ${TOKEN}` },
 };
 
-const fetchMenu = () => fetch(MENUS, config)
+export const fetchMenu = () => fetch(MENUS, config)
   .then(Response => Promise.all([Response, Response.json()]));
 
-export default fetchMenu;
+export const fetchMenuDetail = id => fetch(`${MENU_DETAIL}${id}?${query}`, config)
+  .then(Response => Promise.all([Response, Response.json()]));

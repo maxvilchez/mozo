@@ -15,7 +15,8 @@ module.exports = {
       'react/sort-comp': 'off',
       'react/destructuring-assignment': 'off',
       'no-underscore-dangle': 'off',
-      'import/no-unresolved': 'off'
+      'import/no-unresolved': 'off',
+      'linebreak-style': 'off'
     },
     'globals': {
       "fetch": false
