@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-
-import CardFood from '../components/CardFood';
+import {
+  View, Text, ScrollView, TouchableOpacity, StyleSheet
+} from 'react-native';
 
 import {
   human,
   systemWeights
 } from 'react-native-typography';
+import CardFood from '../components/CardFood';
 
 export default class ListDetailsScreen extends React.Component {
   static navigationOptions = {
@@ -24,17 +25,15 @@ export default class ListDetailsScreen extends React.Component {
         <ScrollView style={styles.content}>
           <Text style={styles.recentlyTitle}>Platos</Text>
           {
-            foods.map((d, i) => {
-              return (
-                <TouchableOpacity key={i}>
-                  <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal={false}/>
+            foods.map((d, i) => (
+              <TouchableOpacity key={i}>
+                  <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal={false} />
                 </TouchableOpacity>
-              )
-            })
+            ))
           }
-        </ScrollView> 
+        </ScrollView>
       </View>
-     
+
     );
   }
 }

@@ -19,11 +19,47 @@ import { bindActionCreators } from 'redux';
 import { fetchData } from '../actions';
 
 import CardFood from '../components/CardFood';
+import Category from '../components/Category';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
+
+  state = {
+    categories: [
+      {
+        id: 1,
+        color: '#ff8f73',
+        name: 'Pizza',
+        icon: 'md-pizza'
+      },
+      {
+        id: 2,
+        color: '#b5e2e1',
+        name: 'Bebidas',
+        icon: 'md-beer'
+      },
+      {
+        id: 3,
+        color: '#dde657',
+        name: 'Frutas',
+        icon: 'logo-apple'
+      },
+      {
+        id: 4,
+        color: '#ffc300',
+        name: 'Cafes',
+        icon: 'md-cafe'
+      },
+      {
+        id: 5,
+        color: '#fac1b8',
+        name: 'Tragos',
+        icon: 'md-wine'
+      }
+    ]
+  }
 
   componentWillMount() {
     this.props.actions.fetchData();
@@ -31,6 +67,7 @@ class HomeScreen extends React.Component {
 
   render() {
     const { menus } = this.props.data;
+    const { categories } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -40,23 +77,14 @@ class HomeScreen extends React.Component {
           <View style={styles.headerTitle}>
             <Text style={iOSUIKit.largeTitleEmphasized}>Empresa</Text>
             <View style={styles.headerIconContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Search')}
+              >
                 <Icon.Ionicons
                   name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
                   size={28}
                   style={styles.headerIcon}
                 />
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <View style={{ position: 'relative' }}>
-                  <Text style={styles.badge}> 2 </Text>
-                  <Icon.Ionicons
-                    name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'}
-                    size={28}
-                    style={styles.headerIcon}
-                  />
-                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -67,6 +95,16 @@ class HomeScreen extends React.Component {
 
           <Text style={styles.recentlyTitle}>Categorias</Text>
 
+          <ScrollView horizontal style={{ marginBottom: 15 }}>
+            {
+              categories.map(d => (
+                <TouchableOpacity key={d.id}>
+                  <Category name={d.name} color={d.color} icon={d.icon} />
+                </TouchableOpacity>
+              ))
+            }
+          </ScrollView>
+
           <Text style={styles.recentlyTitle}>Plato del dia</Text>
           {menus.length > 0 && (
           <TouchableOpacity
@@ -76,11 +114,11 @@ class HomeScreen extends React.Component {
           </TouchableOpacity>
           )}
           <Text style={styles.recentlyTitle}>Todo el restaurante</Text>
-          <ScrollView horizontal>
+          <ScrollView>
             {
               menus.map(d => (
                 <TouchableOpacity key={d.id}>
-                  <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal />
+                  <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} />
                 </TouchableOpacity>
               ))
             }
@@ -117,14 +155,14 @@ const styles = StyleSheet.create({
   },
   recentlyTitle: {
     ...human.title2Object,
-    ...systemWeights.bold
+    ...systemWeights.bold,
+    marginBottom: 15,
   },
   headerIconContainer: {
     flexDirection: 'row'
   },
   headerIcon: {
     color: '#4a4a4a',
-    marginLeft: 18
   },
   textNormal: {
     ...human.footnoteObject

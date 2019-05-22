@@ -11,7 +11,7 @@ export default class OrdenScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text>Mi lista de pedidos</Text>
+        <Text style={{ flex: 1, alignSelf: 'center' }}>Mi lista de pedidos</Text>
       </ScrollView>
     );
   }

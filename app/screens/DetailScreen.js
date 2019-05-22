@@ -101,11 +101,14 @@ class DetailScreen extends React.Component {
           </ScrollView>
         </View>
         <View style={{
-          paddingTop: 5, paddingBottom: 5, flex: 1, alignItems: 'center',
+          paddingTop: 5, paddingBottom: 5, flex: 1, alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'center'
         }}
         >
           <TouchableOpacity>
-            <View style={{ borderRadius: 20, width: '100%', height: 60, backgroundColor: '#FBCB33', flex: 1, alignItems: 'center' }}>
+            <View style={{
+              borderRadius: 20, width: '100%', backgroundColor: '#FBCB33', padding: 15
+            }}
+            >
               <Text style={{ color: '#4a4a4a', ...systemWeights.bold }}>AGREGAR POR S/.9.99</Text>
             </View>
           </TouchableOpacity>
