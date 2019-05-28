@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, Image, StyleSheet, ScrollView, TouchableOpacity
+  View, Text, Image, StyleSheet, ScrollView
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {
@@ -8,20 +8,20 @@ import {
   systemWeights,
   iOSUIKit,
 } from 'react-native-typography';
+import { Button } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isEmpty } from 'lodash';
 import StarRating from 'react-native-star-rating';
-import { fetchDataDetail } from '../actions';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import { fetchDataDetail, addToCart } from '../actions';
+
+import ContentModal from '../components/ContentModal';
 
 class DetailScreen extends React.Component {
   static navigationOptions = {
     title: 'Detalles'
   };
-
-  state = {
-    starCount: 3
-  }
 
   componentWillMount() {
     const { navigation } = this.props;
@@ -29,11 +29,16 @@ class DetailScreen extends React.Component {
     this.props.actions.fetchDataDetail(id);
   }
 
-  onStarRatingPress(rating) {
-    this.setState({
-      starCount: rating
-    });
-  }
+  addCart = () => {
+    const { detail } = this.props.data;
+    const product = {
+      id: detail.id,
+      name: detail.name,
+      price: 9,
+    };
+
+    this.props.actions.addToCart(product);
+  };
 
   render() {
     const { detail } = this.props.data;
@@ -69,8 +74,7 @@ class DetailScreen extends React.Component {
                 <StarRating
                   disabled={false}
                   maxStars={5}
-                  rating={this.state.starCount}
-                  selectedStar={rating => this.onStarRatingPress(rating)}
+                  rating={detail && detail.rating}
                   fullStarColor="#FBCB33"
                   starSize={22}
                   emptyStar="ios-heart-empty"
@@ -93,7 +97,7 @@ class DetailScreen extends React.Component {
             </View>
 
             <View style={{ flex: 3 }}>
-              <Text style={styles.recentlyTitle}>Sticky Mixed Rice</Text>
+              <Text style={styles.recentlyTitle}>{detail && detail.name}</Text>
               <Text style={{ marginTop: -10, color: '#4a4a4a', }}>15 min. aprox.</Text>
               <Text style={{ marginTop: 10 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
               <Text style={[{ marginTop: 20, ...systemWeights.bold }, iOSUIKit.bodyEmphasized]}>Ingredientes:</Text>
@@ -104,15 +108,24 @@ class DetailScreen extends React.Component {
           paddingTop: 5, paddingBottom: 5, flex: 1, alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'center'
         }}
         >
-          <TouchableOpacity>
-            <View style={{
-              borderRadius: 20, width: '100%', backgroundColor: '#FBCB33', padding: 15
-            }}
-            >
-              <Text style={{ color: '#4a4a4a', ...systemWeights.bold }}>AGREGAR POR S/.9.99</Text>
-            </View>
-          </TouchableOpacity>
+
+          <Button onPress={() => this.RBSheet.open()} style={{ backgroundColor: '#FBCB33' }} color="#4a4a4a">AGREGAR POR S/.9.99</Button>
         </View>
+
+        <RBSheet
+          ref={(ref) => {
+            this.RBSheet = ref;
+          }}
+          customStyles={{
+            container: {
+              justifyContent: 'center',
+              alignItems: 'center'
+            }
+          }}
+        >
+          <ContentModal />
+        </RBSheet>
+
       </View>
     );
   }
@@ -136,12 +149,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  data: state.dataDetail
+  data: state.dataDetail,
+  cart: state.cart,
 });
 
 const mapDispatchToProps = (dispatch) => {
   const actions = {
     fetchDataDetail: bindActionCreators(fetchDataDetail, dispatch),
+    addToCart: bindActionCreators(addToCart, dispatch),
   };
   return { actions };
 };

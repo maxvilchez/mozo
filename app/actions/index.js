@@ -1,5 +1,12 @@
 import {
-  FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, FETCHING_DATA_MENU_SUCCESS, FETCHING_DATA_MENU_DETAIL_SUCCESS
+  FETCHING_DATA,
+  FETCHING_DATA_SUCCESS,
+  FETCHING_DATA_FAILURE,
+  FETCHING_DATA_MENU_SUCCESS,
+  FETCHING_DATA_MENU_DETAIL_SUCCESS,
+  ADD_TO_CART,
+  EMPTY_CART,
+  REMOVE_FROM_CART,
 } from '../constants';
 import { fetchMenu, fetchMenuDetail } from '../api';
 
@@ -22,11 +29,33 @@ export const fetchData = () => (dispatch) => {
     .catch(error => console.log(error));
 };
 
-export const fetchDataDetail = id => (dispatch) => {  
+export const fetchDataDetail = id => (dispatch) => {
   dispatch(getData());
   fetchMenuDetail(id)
     .then(([, json]) => {
       dispatch(getDataMenuDetailSuccess(json));
     })
     .catch(error => console.log(error));
+};
+
+// shopping cart
+
+export const addToCart = item => (dispatch) => {
+  dispatch({
+    type: ADD_TO_CART,
+    payload: item
+  });
+};
+
+export const removeFromCart = item => (dispatch) => {
+  dispatch({
+    type: REMOVE_FROM_CART,
+    payload: item
+  });
+};
+
+export const emptyCart = () => (dispatch) => {
+  dispatch({
+    type: EMPTY_CART
+  });
 };

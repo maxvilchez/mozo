@@ -16,7 +16,8 @@ module.exports = {
       'react/destructuring-assignment': 'off',
       'no-underscore-dangle': 'off',
       'import/no-unresolved': 'off',
-      'linebreak-style': 'off'
+      'linebreak-style': 'off',
+      'react/no-access-state-in-setstate': 'off'
     },
     'globals': {
       "fetch": false

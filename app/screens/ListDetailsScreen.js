@@ -25,10 +25,10 @@ export default class ListDetailsScreen extends React.Component {
         <ScrollView style={styles.content}>
           <Text style={styles.recentlyTitle}>Platos</Text>
           {
-            foods.map((d, i) => (
-              <TouchableOpacity key={i}>
-                  <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal={false} />
-                </TouchableOpacity>
+            foods.map(d => (
+              <TouchableOpacity key={d.id}>
+                <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} horizontal={false} />
+              </TouchableOpacity>
             ))
           }
         </ScrollView>
