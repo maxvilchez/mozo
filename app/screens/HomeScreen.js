@@ -117,7 +117,7 @@ class HomeScreen extends React.Component {
           <ScrollView>
             {
               menus.map(d => (
-                <TouchableOpacity key={d.id}>
+                <TouchableOpacity key={d.id} onPress={() => this.props.navigation.navigate('Detail', { id: d.id })}>
                   <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} />
                 </TouchableOpacity>
               ))

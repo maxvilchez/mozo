@@ -8,7 +8,7 @@ import {
   systemWeights,
   iOSUIKit,
 } from 'react-native-typography';
-import { Button } from 'react-native-paper';
+import { Button, IconButton, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isEmpty } from 'lodash';
@@ -16,14 +16,17 @@ import StarRating from 'react-native-star-rating';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { fetchDataDetail, addToCart } from '../actions';
 
-import ContentModal from '../components/ContentModal';
-
 class DetailScreen extends React.Component {
   static navigationOptions = {
     title: 'Detalles'
   };
 
-  componentWillMount() {
+  state = {
+    quantity: 0,
+    visibleSnackbar: false,
+  }
+
+  componentWillMount = () => {
     const { navigation } = this.props;
     const id = navigation.getParam('id');
     this.props.actions.fetchDataDetail(id);
@@ -35,15 +38,30 @@ class DetailScreen extends React.Component {
       id: detail.id,
       name: detail.name,
       price: 9,
+      quantity: this.state.quantity,
     };
 
     this.props.actions.addToCart(product);
+    this.RBSheet.close();
+
+    this.setState(state => ({ visibleSnackbar: !state.visibleSnackbar }));
+  };
+
+  addQuantity = () => {
+    this.setState({
+      quantity: this.state.quantity + 1
+    });
+  };
+
+  removeQuantity = () => {
+    this.setState({
+      quantity: this.state.quantity - 1
+    });
   };
 
   render() {
     const { detail } = this.props.data;
     const { photos } = detail;
-
     return (
       <View style={styles.container}>
 
@@ -116,15 +134,51 @@ class DetailScreen extends React.Component {
           ref={(ref) => {
             this.RBSheet = ref;
           }}
-          customStyles={{
-            container: {
-              justifyContent: 'center',
-              alignItems: 'center'
-            }
+        >
+          <View style={styles.container}>
+            <View style={styles.content}>
+              <View style={{ flex: 1, flexDirection: 'row', }}>
+                <View style={{ flex: 2, justifyContent: 'center' }}>
+                  <Text>{detail && detail.name}</Text>
+                  <Text>{`${15} min. aprox.`}</Text>
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                  {detail && (
+                    <Image source={{ uri: detail.image_url }} style={styles.image} />
+                  )}
+                </View>
+              </View>
+              <View style={styles.bottomAddRemove}>
+                <IconButton
+                  icon="remove-circle-outline"
+                  onPress={() => this.removeQuantity()}
+                />
+                <Text>{this.state.quantity}</Text>
+                <IconButton
+                  icon="add-circle-outline"
+                  onPress={() => this.addQuantity()}
+                />
+              </View>
+            </View>
+            <View style={[styles.footer, { justifyContent: 'center' }]}>
+              <Button onPress={() => this.addCart()} style={{ backgroundColor: '#FBCB33' }} color="#4a4a4a">Agregar</Button>
+            </View>
+          </View>
+
+        </RBSheet>
+
+        <Snackbar
+          visible={this.state.visibleSnackbar}
+          onDismiss={() => this.setState({ visibleSnackbar: false })}
+          action={{
+            label: 'Ok',
+            onPress: () => {
+              // Do something
+            },
           }}
         >
-          <ContentModal />
-        </RBSheet>
+          El producto se agrego a su pedido.
+        </Snackbar>
 
       </View>
     );
@@ -146,11 +200,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  content: {
+    flex: 2,
+    padding: 20,
+    justifyContent: 'center'
+  },
+  footer: {
+    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 6,
+    maxHeight: 60,
+  },
+  bottomAddRemove: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  }
 });
 
 const mapStateToProps = state => ({
   data: state.dataDetail,
-  cart: state.cart,
 });
 
 const mapDispatchToProps = (dispatch) => {

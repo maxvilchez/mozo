@@ -11,7 +11,7 @@ const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: [action.payload, ...state.cart],
-        total: state.total + action.payload.price,
+        total: state.total + (action.payload.price * action.payload.quantity),
       };
     case EMPTY_CART:
       return {
@@ -22,8 +22,8 @@ const cartReducer = (state = initialState, action) => {
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: state.cart.filter((item, i) => i !== action.payload.id),
-        total: state.total - action.payload.item.price
+        cart: state.cart.filter(item => item.id !== action.payload.id),
+        total: state.total - (action.payload.item.price * action.payload.item.quantity),
       };
     default:
       return state;
