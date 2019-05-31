@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import { IconButton, } from 'react-native-paper';
+import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
 
 const ItemCart = ({ item, callback }) => (
-  <View key={item.id} style={styles.item}>
+  <View style={styles.item}>
     <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center', }}>
       <IconButton
         icon="delete-forever"
@@ -11,11 +12,11 @@ const ItemCart = ({ item, callback }) => (
       />
     </View>
     <View style={{ flex: 3, justifyContent: 'center', }}>
-      <Text>{item.name}</Text>
-      <Text>{`${15} min. aprox.`}</Text>
+      <Text style={[systemWeights.bold, iOSUIKit.bodyEmphasized]}>{item.name}</Text>
+      <Text style={[systemWeights.regular, { color: iOSColors.gray }]}>{`${15} min. aprox.`}</Text>
     </View>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-      <Text>{`S/. ${item.price}`}</Text>
+      <Text style={[iOSUIKit.bodyEmphasized, systemWeights.bold]}>{`S/. ${item.price}`}</Text>
     </View>
   </View>
 );
@@ -25,7 +26,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     borderBottomColor: '#cccccc',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    marginTop: 7,
+    marginBottom: 7,
   },
 });
 

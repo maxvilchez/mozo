@@ -1,30 +1,36 @@
 import React from 'react';
-import {
-  ScrollView, StyleSheet, Text, View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  Button, TextInput, Divider,
-} from 'react-native-paper';
-import { removeFromCart, emptyCart } from '../actions';
+import { Button, TextInput, Divider } from 'react-native-paper';
+import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
+import { removeFromCart, emptyCart, addOrder } from '../actions';
 
 import ItemCart from '../components/ItemCart';
 import ItemTotal from '../components/ItemTotal';
 
 class OrdenScreen extends React.Component {
   static navigationOptions = {
-    title: 'Detalle de mi pedido'
+    title: 'Mi pedido'
   };
 
   state = {
-    number: '',
-    name: ''
+    table: '',
+    username: '',
+    time: '',
   }
 
-  sendOrder = () => {
+  checkoutOrder = () => {
+    const { table } = this.state;
 
-  }
+    if (table === '') {
+      Alert.alert('Campo obligatorio!', 'Ingrese su número de mesa');
+      return;
+    }
+
+    this.props.actions.addOrder(this.state);
+    this.props.navigation.navigate('OrderCheckout');
+  }    
 
   removeProduct = (id,) => {
     const { cart } = this.props.cart;
@@ -38,8 +44,6 @@ class OrdenScreen extends React.Component {
 
   render() {
     const { cart, total } = this.props.cart;
-    console.log(this.props.cart);
-    
     if (cart.length > 0) {
       return (
         <View style={styles.container}>
@@ -48,8 +52,8 @@ class OrdenScreen extends React.Component {
               <TextInput
                 mode="outlined"
                 label="# de Mesa"
-                value={this.state.number}
-                onChangeText={number => this.setState({ number })}
+                value={this.state.table}
+                onChangeText={table => this.setState({ table })}
                 underlineColor="#FBCB33"
                 underlineColorAndroid="#FBCB33"
                 selectionColor="#4A4A4A"
@@ -57,8 +61,8 @@ class OrdenScreen extends React.Component {
               <TextInput
                 mode="outlined"
                 label="Nombre"
-                value={this.state.name}
-                onChangeText={name => this.setState({ name })}
+                value={this.state.username}
+                onChangeText={username => this.setState({ username })}
                 underlineColor="#FBCB33"
                 underlineColorAndroid="#FBCB33"
                 selectionColor="#4A4A4A"
@@ -79,14 +83,14 @@ class OrdenScreen extends React.Component {
             </ScrollView>
           </View>
           <View style={[styles.contentFooter, { backgroundColor: '#ffffff' }]}>
-            <Button onPress={() => this.sendOrder()} style={{ backgroundColor: '#FBCB33' }} color="#4A4A4A">Enviar Pedido</Button>
+            <Button onPress={() => this.checkoutOrder()} style={{ backgroundColor: '#FBCB33' }} color="#4A4A4A">Continuar</Button>
           </View>
         </View>
       );
     }
     return (
-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', color: '#cccccc' }]}>
-        <Text>Sin datos</Text>
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={[systemWeights.bold, iOSUIKit.title3Emphasized, { color: iOSColors.gray }]}>Sin datos</Text>
       </View>
     );
   }
@@ -126,6 +130,7 @@ const mapDispatchToProps = (dispatch) => {
   const actions = {
     removeFromCart: bindActionCreators(removeFromCart, dispatch),
     emptyCart: bindActionCreators(emptyCart, dispatch),
+    addOrder: bindActionCreators(addOrder, dispatch),
   };
   return { actions };
 };

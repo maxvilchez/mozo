@@ -17,7 +17,9 @@ module.exports = {
       'no-underscore-dangle': 'off',
       'import/no-unresolved': 'off',
       'linebreak-style': 'off',
-      'react/no-access-state-in-setstate': 'off'
+      'react/no-access-state-in-setstate': 'off',
+      'object-curly-newline': 'off',
+      'no-trailing-spaces': 'off'
     },
     'globals': {
       "fetch": false

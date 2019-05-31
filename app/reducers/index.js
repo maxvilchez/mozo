@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import menusReducer from './menus.reducers';
-import detailReducer from './detail.reducers';
-import cartReducer from './cart.reducers';
+import menusReducers from './menus.reducers';
+import detailReducers from './detail.reducers';
+import cartReducers from './cart.reducers';
+import orderReducers from './order.reducers';
 
 export default combineReducers({
-  data: menusReducer,
-  dataDetail: detailReducer,
-  cart: cartReducer,
+  data: menusReducers, // cambiar a products
+  dataDetail: detailReducers, // cambiar a detail
+  cart: cartReducers,
+  order: orderReducers
 });

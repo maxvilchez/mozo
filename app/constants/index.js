@@ -14,3 +14,8 @@ export const BADGE_REMOVE = 'BADGE_REMOVE';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const EMPTY_CART = 'EMPTY_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+
+// order
+
+export const ADD_ORDER = 'ADD_ORDER';
+export const CHANGE_PAYMENT = 'CHANGE_PAYMENT';

@@ -1,18 +1,6 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Platform
-} from 'react-native';
-import {
-  iOSColors,
-  human,
-  iOSUIKit,
-  systemWeights
-} from 'react-native-typography';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
+import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
 import { Icon } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -70,16 +58,12 @@ class HomeScreen extends React.Component {
     const { categories } = this.state;
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-        >
+        <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+          
           <View style={styles.headerTitle}>
             <Text style={iOSUIKit.largeTitleEmphasized}>Empresa</Text>
             <View style={styles.headerIconContainer}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Search')}
-              >
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Search')}>
                 <Icon.Ionicons
                   name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
                   size={28}
@@ -88,6 +72,7 @@ class HomeScreen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
+
           <View style={styles.headerSubTitle}>
             <Text style={styles.textNormalGray}>Dirección</Text>
             <Text style={styles.textNormal}>Av.jose pardo 668, Miraflores</Text>
@@ -98,7 +83,7 @@ class HomeScreen extends React.Component {
           <ScrollView horizontal style={{ marginBottom: 15 }}>
             {
               categories.map(d => (
-                <TouchableOpacity key={d.id}>
+                <TouchableOpacity key={d.id} onPress={() => console.log(d.name)}>
                   <Category name={d.name} color={d.color} icon={d.icon} />
                 </TouchableOpacity>
               ))
@@ -106,24 +91,32 @@ class HomeScreen extends React.Component {
           </ScrollView>
 
           <Text style={styles.recentlyTitle}>Plato del dia</Text>
-          {menus.length > 0 && (
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Detail', { id: menus[3].id })}
-          >
-            <CardFood name={menus[3].name} time={menus[3].review_count} img={menus[3].image_url} price={9.99} />
-          </TouchableOpacity>
-          )}
-          <Text style={styles.recentlyTitle}>Todo el restaurante</Text>
-          <ScrollView>
-            {
-              menus.map(d => (
-                <TouchableOpacity key={d.id} onPress={() => this.props.navigation.navigate('Detail', { id: d.id })}>
-                  <CardFood name={d.name} time={d.review_count} img={d.image_url} price={9.99} />
-                </TouchableOpacity>
-              ))
-            }
-          </ScrollView>
 
+          {
+            menus.length > 0 && (
+              <CardFood 
+                name={menus[3].name} 
+                photo={menus[3].image_url} 
+                time={15} 
+                price={15} 
+                details={() => this.props.navigation.navigate('Detail', { id: menus[3].id })} 
+              />
+            )
+          }
+
+          <Text style={styles.recentlyTitle}>Todo el restaurante</Text>
+          {
+            menus.map(d => (
+              <CardFood
+                key={d.id} 
+                name={d.name} 
+                photo={d.image_url} 
+                time={15} 
+                price={15}
+                details={() => this.props.navigation.navigate('Detail', { id: d.id })} 
+              />
+            ))
+          }
         </ScrollView>
       </View>
     );
@@ -134,10 +127,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 7
   },
-  contentContainer: {
-    paddingTop: 30
+  content: {
+    paddingTop: 30,
+    paddingBottom: 7,
+    paddingLeft: 7,
+    paddingRight: 7,
   },
   headerTitle: {
     flex: 1,
@@ -154,35 +149,25 @@ const styles = StyleSheet.create({
     borderColor: iOSColors.customGray
   },
   recentlyTitle: {
-    ...human.title2Object,
+    ...iOSUIKit.title3Emphasized,
     ...systemWeights.bold,
+    marginTop: 10,
     marginBottom: 15,
   },
   headerIconContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingRight: 5,
   },
   headerIcon: {
     color: '#4a4a4a',
   },
   textNormal: {
-    ...human.footnoteObject
+    ...systemWeights.regular
   },
   textNormalGray: {
-    ...human.footnoteObject,
+    ...systemWeights.regular,
     color: iOSColors.gray
   },
-  badge: {
-    color: '#fff',
-    position: 'absolute',
-    zIndex: 10,
-    bottom: 0,
-    right: 10,
-    width: 20,
-    height: 20,
-    textAlign: 'center',
-    backgroundColor: 'red',
-    borderRadius: 50
-  }
 });
 
 const mapStateToProps = state => ({

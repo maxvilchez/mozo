@@ -7,6 +7,8 @@ import {
   ADD_TO_CART,
   EMPTY_CART,
   REMOVE_FROM_CART,
+  ADD_ORDER,
+  CHANGE_PAYMENT,
 } from '../constants';
 import { fetchMenu, fetchMenuDetail } from '../api';
 
@@ -57,5 +59,21 @@ export const removeFromCart = item => (dispatch) => {
 export const emptyCart = () => (dispatch) => {
   dispatch({
     type: EMPTY_CART
+  });
+};
+
+// order
+
+export const addOrder = item => (dispatch) => {
+  dispatch({
+    type: ADD_ORDER,
+    payload: item
+  });
+};
+
+export const changePayment = payment => (dispatch) => {
+  dispatch({
+    type: CHANGE_PAYMENT,
+    payment
   });
 };

@@ -8,11 +8,11 @@ import {
 import TabBarIcon from '../components/TabBarIcon';
 
 import HomeScreen from '../screens/HomeScreen';
-import OrdenScreen from '../screens/OrdenScreen';
+import OrderScreen from '../screens/OrderScreen';
 import DetailScreen from '../screens/DetailScreen';
 import ListDetailsScreen from '../screens/ListDetailsScreen';
-
 import SearchScren from '../screens/SearchScreen';
+import OrderCheckoutScreen from '../screens/OrderCheckoutScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -32,7 +32,8 @@ HomeStack.navigationOptions = {
 };
 
 const OrdenStack = createStackNavigator({
-  Orden: OrdenScreen
+  Order: OrderScreen,
+  OrderCheckout: OrderCheckoutScreen,
 });
 
 OrdenStack.navigationOptions = {

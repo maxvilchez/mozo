@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  View, Text, Image, StyleSheet, ScrollView
-} from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import Swiper from 'react-native-swiper';
-import {
-  human,
-  systemWeights,
-  iOSUIKit,
-} from 'react-native-typography';
+import { iOSColors, systemWeights, iOSUIKit } from 'react-native-typography';
 import { Button, IconButton, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,7 +12,7 @@ import { fetchDataDetail, addToCart } from '../actions';
 
 class DetailScreen extends React.Component {
   static navigationOptions = {
-    title: 'Detalles'
+    title: 'Detalle'
   };
 
   state = {
@@ -54,9 +48,12 @@ class DetailScreen extends React.Component {
   };
 
   removeQuantity = () => {
-    this.setState({
-      quantity: this.state.quantity - 1
-    });
+    const { quantity } = this.state;
+    if (quantity > 0) {
+      this.setState({
+        quantity: this.state.quantity - 1
+      });
+    }
   };
 
   render() {
@@ -82,12 +79,10 @@ class DetailScreen extends React.Component {
           )}
 
         </View>
-        <View style={{ padding: 20, flex: 3, }}>
+        <View style={{ padding: 10, flex: 3, }}>
           <ScrollView>
-            <View style={{
-              flex: 1, flexDirection: 'row', alignItems: 'flex-end',
-            }}
-            >
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end' }}>
+              
               <View style={{ flex: 1, }}>
                 <StarRating
                   disabled={false}
@@ -103,12 +98,8 @@ class DetailScreen extends React.Component {
               </View>
 
               <View style={{ flex: 2, alignItems: 'flex-end', }}>
-                <View style={{
-                  width: 50, height: 50, borderRadius: 50, backgroundColor: '#FBCB33', alignItems: 'center'
-                }}
-                >
-                  <Text>S/.</Text>
-                  <Text style={iOSUIKit.subheadEmphasized}>9.99</Text>
+                <View style={styles.price}>
+                  <Text style={styles.priceText}>{`S/.${15}`}</Text>
                 </View>
               </View>
 
@@ -116,18 +107,20 @@ class DetailScreen extends React.Component {
 
             <View style={{ flex: 3 }}>
               <Text style={styles.recentlyTitle}>{detail && detail.name}</Text>
-              <Text style={{ marginTop: -10, color: '#4a4a4a', }}>15 min. aprox.</Text>
-              <Text style={{ marginTop: 10 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
+              <Text style={styles.time}>15 min. aprox.</Text>
+              <Text style={[systemWeights.regular, { marginTop: 10 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
               <Text style={[{ marginTop: 20, ...systemWeights.bold }, iOSUIKit.bodyEmphasized]}>Ingredientes:</Text>
             </View>
           </ScrollView>
         </View>
-        <View style={{
-          paddingTop: 5, paddingBottom: 5, flex: 1, alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'center'
-        }}
-        >
-
-          <Button onPress={() => this.RBSheet.open()} style={{ backgroundColor: '#FBCB33' }} color="#4a4a4a">AGREGAR POR S/.9.99</Button>
+        <View style={styles.contentFooter}>
+          <Button 
+            onPress={() => this.RBSheet.open()} 
+            style={{ backgroundColor: '#FBCB33' }} 
+            color="#4a4a4a"
+          >
+              AGREGAR POR S/.15
+          </Button>
         </View>
 
         <RBSheet
@@ -139,8 +132,8 @@ class DetailScreen extends React.Component {
             <View style={styles.content}>
               <View style={{ flex: 1, flexDirection: 'row', }}>
                 <View style={{ flex: 2, justifyContent: 'center' }}>
-                  <Text>{detail && detail.name}</Text>
-                  <Text>{`${15} min. aprox.`}</Text>
+                  <Text style={{ ...systemWeights.bold }}>{detail && detail.name}</Text>
+                  <Text style={styles.time}>{`${15} min. aprox.`}</Text>
                 </View>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                   {detail && (
@@ -191,7 +184,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   recentlyTitle: {
-    ...human.title2Object,
+    ...iOSUIKit.title3Emphasized,
     ...systemWeights.bold,
     marginBottom: 10,
   },
@@ -221,6 +214,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  price: {
+    width: 60, 
+    height: 60, 
+    borderRadius: 60, 
+    backgroundColor: '#FBCB33',
+    alignItems: 'center', 
+    flex: 1, 
+    justifyContent: 'center',
+  },
+  priceText: {
+    ...systemWeights.bold,
+    ...iOSUIKit.bodyEmphasized,
+  },
+  contentFooter: {
+    flex: 1, 
+    alignItems: 'center', 
+    flexDirection: 'row', 
+    justifyContent: 'center',
+  },
+  time: {
+    color: iOSColors.gray,
+    ...systemWeights.regular,
   }
 });
 
