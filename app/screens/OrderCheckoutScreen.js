@@ -9,7 +9,17 @@ import { changePayment } from '../actions';
 
 class OrderCheckoutScreen extends React.Component {
   static navigationOptions = {
-    title: 'Checkout'
+    title: 'Checkout',
+    headerStyle: {
+      backgroundColor: '#FFFFFF',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
+    headerTintColor: '#4A4A4A',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
   };
 
   state = {

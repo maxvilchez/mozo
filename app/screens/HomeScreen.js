@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
+import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
-import { Icon } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Paragraph, IconButton } from 'react-native-paper';
 import { fetchData } from '../actions';
 
 import CardFood from '../components/CardFood';
@@ -11,9 +11,26 @@ import CardFoodItem from '../components/CardFoodItem';
 import Category from '../components/Category';
 
 class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Empresa',
+    headerStyle: {
+      backgroundColor: '#FFFFFF',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
+    headerTintColor: '#4A4A4A',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    headerRight: (
+      <IconButton 
+        icon="search"
+        size={26}
+        onPress={() => navigation.navigate('Search')}
+      />
+    ),
+  });
 
   state = {
     categories: [
@@ -60,38 +77,25 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-          
-          <View style={styles.headerTitle}>
-            <Text style={iOSUIKit.largeTitleEmphasized}>Empresa</Text>
-            <View style={styles.headerIconContainer}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Search')}>
-                <Icon.Ionicons
-                  name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
-                  size={28}
-                  style={styles.headerIcon}
-                />
-              </TouchableOpacity>
-            </View>
+
+          <View>
+            <Paragraph style={styles.direction}>Dirección</Paragraph>
+            <Paragraph>Av.jose pardo 668, Miraflores</Paragraph>
           </View>
 
-          <View style={styles.headerSubTitle}>
-            <Text style={styles.textNormalGray}>Dirección</Text>
-            <Text style={styles.textNormal}>Av.jose pardo 668, Miraflores</Text>
-          </View>
+          <Paragraph style={styles.recentlyTitle}>Categorias</Paragraph>
 
-          <Text style={styles.recentlyTitle}>Categorias</Text>
-
-          <ScrollView horizontal style={{ marginBottom: 15 }}>
+          <ScrollView horizontal>
             {
               categories.map(d => (
-                <TouchableOpacity key={d.id} onPress={() => console.log(d.name)}>
+                <TouchableOpacity key={d.id} onPress={() => this.props.navigation.navigate('CategoryDetail', { id: d.id })}>
                   <Category name={d.name} color={d.color} icon={d.icon} />
                 </TouchableOpacity>
               ))
             }
           </ScrollView>
 
-          <Text style={styles.recentlyTitle}>Plato del dia</Text>
+          <Paragraph style={styles.recentlyTitle}>Plato del dia</Paragraph>
 
           {
             menus.length > 0 && (
@@ -104,7 +108,7 @@ class HomeScreen extends React.Component {
             )
           }
 
-          <Text style={styles.recentlyTitle}>Lo mejor del restaurante</Text>
+          <Paragraph style={styles.recentlyTitle}>Todo el restaurante</Paragraph>
           {
             menus.map(d => (
               <CardFoodItem
@@ -129,43 +133,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   content: {
-    paddingTop: 30,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  headerTitle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  headerSubTitle: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingBottom: 8,
-    borderBottomWidth: 1,
-    borderColor: iOSColors.customGray
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   recentlyTitle: {
-    ...iOSUIKit.title3Emphasized,
+    ...iOSUIKit.largeTitleEmphasized,
     ...systemWeights.bold,
-    marginTop: 20,
+    marginTop: 15,
     marginBottom: 15,
   },
-  headerIconContainer: {
-    flexDirection: 'row',
-    paddingRight: 5,
-  },
-  headerIcon: {
-    color: '#4a4a4a',
-  },
-  textNormal: {
-    ...systemWeights.regular
-  },
-  textNormalGray: {
-    ...systemWeights.regular,
+  direction: {
     color: iOSColors.gray
   },
 });

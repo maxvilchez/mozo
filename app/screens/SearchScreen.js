@@ -6,7 +6,16 @@ import {
 
 class SearchScren extends React.Component {
   static navigationOptions = {
-    header: null
+    headerStyle: {
+      backgroundColor: '#FFFFFF',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
+    headerTintColor: '#4A4A4A',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
   };
 
   state = {
@@ -17,13 +26,11 @@ class SearchScren extends React.Component {
     const { firstQuery } = this.state;
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1, paddingTop: 30 }}>
+        <View style={{ flex: 1 }}>
           <Searchbar
             placeholder="Buscar"
             onChangeText={(query) => { this.setState({ firstQuery: query }); }}
             value={firstQuery}
-            icon="arrow-back"
-            onIconPress={() => this.props.navigation.goBack()}
           />
         </View>
         <View style={{

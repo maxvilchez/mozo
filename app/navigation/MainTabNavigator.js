@@ -13,12 +13,14 @@ import DetailScreen from '../screens/DetailScreen';
 import ListDetailsScreen from '../screens/ListDetailsScreen';
 import SearchScren from '../screens/SearchScreen';
 import OrderCheckoutScreen from '../screens/OrderCheckoutScreen';
+import CategoryDetailScreen from '../screens/CategoryDetailScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   ListDetails: ListDetailsScreen,
   Detail: DetailScreen,
   Search: SearchScren,
+  CategoryDetail: CategoryDetailScreen,
 });
 
 HomeStack.navigationOptions = {

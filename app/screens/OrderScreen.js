@@ -11,7 +11,17 @@ import ItemTotal from '../components/ItemTotal';
 
 class OrdenScreen extends React.Component {
   static navigationOptions = {
-    title: 'Mi pedido'
+    title: 'Mi pedido',
+    headerStyle: {
+      backgroundColor: '#FFFFFF',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
+    headerTintColor: '#4A4A4A',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
   };
 
   state = {

@@ -12,7 +12,17 @@ import { fetchDataDetail, addToCart } from '../actions';
 
 class DetailScreen extends React.Component {
   static navigationOptions = {
-    title: 'Detalle'
+    title: 'Detalles',
+    headerStyle: {
+      backgroundColor: '#FFFFFF',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
+    headerTintColor: '#4A4A4A',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
   };
 
   state = {
