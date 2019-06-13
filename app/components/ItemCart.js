@@ -8,15 +8,16 @@ const ItemCart = ({ item, callback }) => (
     <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center', }}>
       <IconButton
         icon="delete-forever"
-        onPress={() => callback(item.id, item.price)}
+        onPress={() => callback(item.id, item.precio)}
       />
     </View>
     <View style={{ flex: 3, justifyContent: 'center', }}>
-      <Text style={[systemWeights.bold, iOSUIKit.bodyEmphasized]}>{item.name}</Text>
+      <Text style={[systemWeights.bold, iOSUIKit.bodyEmphasized]}>{item.plato}</Text>
       <Text style={[systemWeights.regular, { color: iOSColors.gray }]}>{`${15} min. aprox.`}</Text>
     </View>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-      <Text style={[iOSUIKit.bodyEmphasized, systemWeights.bold]}>{`S/. ${item.price}`}</Text>
+      <Text style={[iOSUIKit.bodyEmphasized, systemWeights.bold]}>{`S/. ${item.precio}`}</Text>
+      <Text style={[iOSUIKit.body, systemWeights.regular, { color: iOSColors.gray, fontSize: 12 }]}>(x{item.cantidad})</Text>
     </View>
   </View>
 );

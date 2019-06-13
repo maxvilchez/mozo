@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Proyecto Mozo",
-    "slug": "mov-mozo",
+    "name": "Mozo",
+    "slug": "mozo",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [

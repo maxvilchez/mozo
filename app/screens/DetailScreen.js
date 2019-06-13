@@ -40,9 +40,10 @@ class DetailScreen extends React.Component {
     const { detail } = this.props.data;
     const product = {
       id: detail.id,
-      name: detail.name,
-      price: 9,
-      quantity: this.state.quantity,
+      plato: detail.name,
+      precio: 9,
+      cantidad: this.state.quantity,
+      tiempo: 15
     };
 
     this.props.actions.addToCart(product);

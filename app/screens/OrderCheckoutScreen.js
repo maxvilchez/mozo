@@ -7,6 +7,8 @@ import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
 
 import { changePayment } from '../actions';
 
+const API_URL = 'http://192.168.1.4:8080/ejemplo'
+
 class OrderCheckoutScreen extends React.Component {
   static navigationOptions = {
     title: 'Checkout',
@@ -35,6 +37,35 @@ class OrderCheckoutScreen extends React.Component {
     const { payment } = this.state;
     this.props.actions.changePayment(payment);
     this.setState({ visible: false });
+  }
+
+  sendOrder = () => {
+
+    const { payment, table, time, username } = this.props.order;
+    const { cart, total } = this.props.cart;
+    
+    const order = {
+      "nombre_mesa": username,
+      "nro_mesa": table,
+      "total": total,
+      "detallePedido": cart
+    };
+    
+    fetch(`${API_URL}/pedidos/`, {
+      method: 'POST',
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify(order)
+    })
+    .then((response) => JSON.stringify(response.json())) 
+    .then((responseData) => {
+      console.log("response: " + responseData);  
+      this.props.navigation.navigate('OrderStatus', { time })
+    })
+    .catch((err) => { console.log(err); });
+
   }
 
   render() {
@@ -86,7 +117,7 @@ class OrderCheckoutScreen extends React.Component {
           </View>
         </View>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Button onPress={() => this.props.navigation.navigate('OrderStatus', { time })} style={{ backgroundColor: '#FBCB33' }} color="#4A4A4A">Enviar Pedido</Button>
+          <Button onPress={() => this.sendOrder()} style={{ backgroundColor: '#FBCB33' }} color="#4A4A4A">Enviar Pedido</Button>
         </View>
         <Dialog visible={this.state.visible} dismissable={false}>
           <Dialog.Title>Método de pago...</Dialog.Title>
