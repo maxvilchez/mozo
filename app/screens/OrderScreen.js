@@ -54,19 +54,21 @@ class OrdenScreen extends React.Component {
                 label="# de Mesa"
                 value={this.state.table}
                 onChangeText={table => this.setState({ table })}
-                underlineColor="#FBCB33"
-                underlineColorAndroid="#FBCB33"
+                underlineColor="#4A4A4A"
+                underlineColorAndroid="#4A4A4A"
                 selectionColor="#4A4A4A"
+                theme={{ colors: { primary: '#4A4A4A', underlineColor: '#4A4A4A', } }}
               />
               <TextInput
                 mode="outlined"
                 label="Nombre"
                 value={this.state.username}
                 onChangeText={username => this.setState({ username })}
-                underlineColor="#FBCB33"
-                underlineColorAndroid="#FBCB33"
+                underlineColor="#4A4A4A"
+                underlineColorAndroid="#4A4A4A"
                 selectionColor="#4A4A4A"
                 style={{ marginTop: 5 }}
+                theme={{ colors: { primary: '#4A4A4A', underlineColor: '#4A4A4A', } }}
               />
               <View style={styles.contentDetail}>
                 {cart.map(d => (

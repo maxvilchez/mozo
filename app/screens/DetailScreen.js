@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { iOSColors, systemWeights, iOSUIKit } from 'react-native-typography';
-import { Button, IconButton, Snackbar } from 'react-native-paper';
+import { Button, IconButton, Snackbar, Paragraph } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isEmpty } from 'lodash';
@@ -99,17 +99,30 @@ class DetailScreen extends React.Component {
 
               <View style={{ flex: 2, alignItems: 'flex-end', }}>
                 <View style={styles.price}>
-                  <Text style={styles.priceText}>{`S/.${15}`}</Text>
+                  <Text style={styles.priceText}>{`S/.${9}`}</Text>
                 </View>
               </View>
 
             </View>
 
             <View style={{ flex: 3 }}>
+              
               <Text style={styles.recentlyTitle}>{detail && detail.name}</Text>
               <Text style={styles.time}>15 min. aprox.</Text>
               <Text style={[systemWeights.regular, { marginTop: 10 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
               <Text style={[{ marginTop: 20, ...systemWeights.bold }, iOSUIKit.bodyEmphasized]}>Ingredientes:</Text>
+              
+              <View style={{ paddingLeft: 15 }}>
+                <Paragraph>1. 1kg de harina</Paragraph>
+                <Paragraph>2. 15g de sal</Paragraph>
+                <Paragraph>3. Una cucharadita de azucar</Paragraph>
+                <Paragraph>4. 600g de agua</Paragraph>
+                <Paragraph>5. 45g de levadura fresca/15 g de levadura seca</Paragraph>
+                <Paragraph>6. Una cucharadita de azucar</Paragraph>
+                <Paragraph>7. 15g de sal</Paragraph>
+                <Paragraph>8. Una cucharadita de azucar</Paragraph>
+              </View>
+
             </View>
           </ScrollView>
         </View>
@@ -119,7 +132,7 @@ class DetailScreen extends React.Component {
             style={{ backgroundColor: '#FBCB33' }} 
             color="#4a4a4a"
           >
-              AGREGAR POR S/.15
+              AGREGAR POR S/.9
           </Button>
         </View>
 
@@ -170,7 +183,7 @@ class DetailScreen extends React.Component {
             },
           }}
         >
-          El producto se agrego a su pedido.
+          Agregado al pedido!
         </Snackbar>
 
       </View>

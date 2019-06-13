@@ -17,10 +17,6 @@ class OrderCheckoutScreen extends React.Component {
     payment: 'cash'
   }
 
-  sendOrder = () => {
-    this.props.navigation.navigate('OrderStatus');
-  }
-
   showDialog = () => this.setState({ visible: true });
 
   hideDialog = () => this.setState({ visible: false });
@@ -66,7 +62,7 @@ class OrderCheckoutScreen extends React.Component {
               <Text style={styles.textLeft}>Método de pago</Text>
             </View>
             <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Button onPress={this.showDialog}>Elegir...</Button>
+              <Button onPress={this.showDialog} color="#4A4A4A">Elegir...</Button>
             </View>
           </View>
           <View style={{ flex: 3, flexDirection: 'row', paddingTop: 20 }}>
@@ -80,7 +76,7 @@ class OrderCheckoutScreen extends React.Component {
           </View>
         </View>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Button onPress={() => this.sendOrder()} style={{ backgroundColor: '#FBCB33' }} color="#4A4A4A">Enviar Pedido</Button>
+          <Button onPress={() => this.props.navigation.navigate('OrderStatus', { time })} style={{ backgroundColor: '#FBCB33' }} color="#4A4A4A">Enviar Pedido</Button>
         </View>
         <Dialog visible={this.state.visible} dismissable={false}>
           <Dialog.Title>Método de pago...</Dialog.Title>
@@ -92,6 +88,7 @@ class OrderCheckoutScreen extends React.Component {
               <View style={styles.row}>
                 <View pointerEvents="none">
                   <RadioButton
+                    color="#FBCB33"
                     value="cash"
                     status={this.state.payment === 'cash' ? 'checked' : 'unchecked'}
                   />
@@ -106,6 +103,7 @@ class OrderCheckoutScreen extends React.Component {
               <View style={styles.row}>
                 <View pointerEvents="none">
                   <RadioButton
+                    color="#FBCB33"
                     value="debit"
                     status={this.state.payment === 'debit' ? 'checked' : 'unchecked'}
                   />
@@ -116,8 +114,8 @@ class OrderCheckoutScreen extends React.Component {
 
           </Dialog.ScrollArea>
           <Dialog.Actions>
-            <Button onPress={this.hideDialog}>Cancel</Button>
-            <Button onPress={this.selectMethod}>OK</Button>
+            <Button onPress={this.hideDialog} color="#4A4A4A">Cancel</Button>
+            <Button onPress={this.selectMethod} color="#4A4A4A">OK</Button>
           </Dialog.Actions>
         </Dialog>
 

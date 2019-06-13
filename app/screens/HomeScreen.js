@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { fetchData } from '../actions';
 
 import CardFood from '../components/CardFood';
+import CardFoodItem from '../components/CardFoodItem';
 import Category from '../components/Category';
 
 class HomeScreen extends React.Component {
@@ -95,24 +96,23 @@ class HomeScreen extends React.Component {
           {
             menus.length > 0 && (
               <CardFood 
-                name={menus[3].name} 
-                photo={menus[3].image_url} 
-                time={15} 
-                price={15} 
-                details={() => this.props.navigation.navigate('Detail', { id: menus[3].id })} 
+                name={menus[5].name} 
+                photo={menus[5].image_url} 
+                time={15}
+                details={() => this.props.navigation.navigate('Detail', { id: menus[5].id })} 
               />
             )
           }
 
-          <Text style={styles.recentlyTitle}>Todo el restaurante</Text>
+          <Text style={styles.recentlyTitle}>Lo mejor del restaurante</Text>
           {
             menus.map(d => (
-              <CardFood
+              <CardFoodItem
                 key={d.id} 
                 name={d.name} 
                 photo={d.image_url} 
                 time={15} 
-                price={15}
+                price={9}
                 details={() => this.props.navigation.navigate('Detail', { id: d.id })} 
               />
             ))
@@ -130,9 +130,9 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingTop: 30,
-    paddingBottom: 7,
-    paddingLeft: 7,
-    paddingRight: 7,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   headerTitle: {
     flex: 1,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   recentlyTitle: {
     ...iOSUIKit.title3Emphasized,
     ...systemWeights.bold,
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 15,
   },
   headerIconContainer: {
