@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import { IconButton, } from 'react-native-paper';
@@ -13,7 +14,7 @@ const ItemCart = ({ item, callback }) => (
     </View>
     <View style={{ flex: 3, justifyContent: 'center', }}>
       <Text style={[systemWeights.bold, iOSUIKit.bodyEmphasized]}>{item.plato}</Text>
-      <Text style={[systemWeights.regular, { color: iOSColors.gray }]}>{`${15} min. aprox.`}</Text>
+      <Text style={[systemWeights.regular, { color: iOSColors.gray }]}>{`${item.tiempo} min. aprox.`}</Text>
     </View>
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
       <Text style={[iOSUIKit.bodyEmphasized, systemWeights.bold]}>{`S/. ${item.precio}`}</Text>

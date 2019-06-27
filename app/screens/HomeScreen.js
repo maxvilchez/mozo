@@ -4,7 +4,7 @@ import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Paragraph, IconButton } from 'react-native-paper';
-import { fetchData } from '../actions';
+import { fetchData, fetchDataCategories } from '../actions';
 
 import CardFood from '../components/CardFood';
 import CardFoodItem from '../components/CardFoodItem';
@@ -24,7 +24,7 @@ class HomeScreen extends React.Component {
       fontWeight: 'bold',
     },
     headerRight: (
-      <IconButton 
+      <IconButton
         icon="search"
         size={26}
         onPress={() => navigation.navigate('Search')}
@@ -32,48 +32,16 @@ class HomeScreen extends React.Component {
     ),
   });
 
-  state = {
-    categories: [
-      {
-        id: 1,
-        color: '#ff8f73',
-        name: 'Pizza',
-        icon: 'md-pizza'
-      },
-      {
-        id: 2,
-        color: '#b5e2e1',
-        name: 'Bebidas',
-        icon: 'md-beer'
-      },
-      {
-        id: 3,
-        color: '#dde657',
-        name: 'Frutas',
-        icon: 'logo-apple'
-      },
-      {
-        id: 4,
-        color: '#ffc300',
-        name: 'Cafes',
-        icon: 'md-cafe'
-      },
-      {
-        id: 5,
-        color: '#fac1b8',
-        name: 'Tragos',
-        icon: 'md-wine'
-      }
-    ]
-  }
+  state = {}
 
   componentWillMount() {
     this.props.actions.fetchData();
+    this.props.actions.fetchDataCategories();
   }
 
   render() {
-    const { menus } = this.props.data;
-    const { categories } = this.state;
+    const { listProducts, productToday } = this.props.products;
+    const { listCategories } = this.props.categories;
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -87,9 +55,9 @@ class HomeScreen extends React.Component {
 
           <ScrollView horizontal>
             {
-              categories.map(d => (
+              listCategories.map(d => (
                 <TouchableOpacity key={d.id} onPress={() => this.props.navigation.navigate('CategoryDetail', { id: d.id })}>
-                  <Category name={d.name} color={d.color} icon={d.icon} />
+                  <Category name={d.nombre} color="#b5e2e1" icon="md-beer" />
                 </TouchableOpacity>
               ))
             }
@@ -98,26 +66,26 @@ class HomeScreen extends React.Component {
           <Paragraph style={styles.recentlyTitle}>Plato del dia</Paragraph>
 
           {
-            menus.length > 0 && (
-              <CardFood 
-                name={menus[5].name} 
-                photo={menus[5].image_url} 
-                time={15}
-                details={() => this.props.navigation.navigate('Detail', { id: menus[5].id })} 
+            productToday && (
+              <CardFood
+                name={productToday.nombre}
+                photo="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500"
+                time={productToday.tiempo_aprox}
+                details={() => this.props.navigation.navigate('Detail', { id: productToday.id })}
               />
             )
           }
 
           <Paragraph style={styles.recentlyTitle}>Todo el restaurante</Paragraph>
           {
-            menus.map(d => (
+            listProducts.map(d => (
               <CardFoodItem
-                key={d.id} 
-                name={d.name} 
-                photo={d.image_url} 
-                time={15} 
-                price={9}
-                details={() => this.props.navigation.navigate('Detail', { id: d.id })} 
+                key={d.id}
+                name={d.nombre}
+                photo="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500"
+                time={d.tiempo_aprox}
+                price={d.precio_venta}
+                details={() => this.props.navigation.navigate('Detail', { id: d.id })}
               />
             ))
           }
@@ -148,12 +116,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  data: state.data
+  products: state.products,
+  categories: state.categories,
 });
 
 const mapDispatchToProps = (dispatch) => {
   const actions = {
     fetchData: bindActionCreators(fetchData, dispatch),
+    fetchDataCategories: bindActionCreators(fetchDataCategories, dispatch),
   };
   return { actions };
 };

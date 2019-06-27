@@ -37,13 +37,13 @@ class DetailScreen extends React.Component {
   }
 
   addCart = () => {
-    const { detail } = this.props.data;
+    const { details } = this.props.products;
     const product = {
-      id: detail.id,
-      plato: detail.name,
-      precio: 9,
+      id: details.id,
+      plato: details.nombre,
+      precio: details.precio_venta,
       cantidad: this.state.quantity,
-      tiempo: 15
+      tiempo: details.tiempo_aprox
     };
 
     this.props.actions.addToCart(product);
@@ -68,24 +68,20 @@ class DetailScreen extends React.Component {
   };
 
   render() {
-    const { detail } = this.props.data;
-    const { photos } = detail;
+    const { details } = this.props.products;
     return (
       <View style={styles.container}>
 
         <View style={{ flex: 2 }}>
 
-          {!isEmpty(detail) && (
+          {!isEmpty(details) && (
           <Swiper>
-            {photos.map((v, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <View style={styles.slideContainer} key={i}>
-                <Image
-                  style={{ width: '100%', height: '100%' }}
-                  source={{ uri: v }}
-                />
-              </View>
-            ))}
+            <View style={styles.slideContainer}>
+              <Image
+                style={{ width: '100%', height: '100%' }}
+                source={{ uri: 'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' }}
+              />
+            </View>
           </Swiper>
           )}
 
@@ -93,12 +89,12 @@ class DetailScreen extends React.Component {
         <View style={{ padding: 10, flex: 3, }}>
           <ScrollView>
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end' }}>
-              
+
               <View style={{ flex: 1, }}>
                 <StarRating
                   disabled={false}
                   maxStars={5}
-                  rating={detail && detail.rating}
+                  rating={details && details.valoracion}
                   fullStarColor="#FBCB33"
                   starSize={22}
                   emptyStar="ios-heart-empty"
@@ -110,19 +106,23 @@ class DetailScreen extends React.Component {
 
               <View style={{ flex: 2, alignItems: 'flex-end', }}>
                 <View style={styles.price}>
-                  <Text style={styles.priceText}>{`S/.${9}`}</Text>
+                  <Text style={styles.priceText}>{details && `S/.${details.precio_venta}`}</Text>
                 </View>
               </View>
 
             </View>
 
             <View style={{ flex: 3 }}>
-              
-              <Text style={styles.recentlyTitle}>{detail && detail.name}</Text>
-              <Text style={styles.time}>15 min. aprox.</Text>
-              <Text style={[systemWeights.regular, { marginTop: 10 }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Text>
+
+              <Text style={styles.recentlyTitle}>{details && details.nombre}</Text>
+              <Text style={styles.time}>
+                {details && details.tiempo_aprox}
+                {' '}
+                min. aprox.
+              </Text>
+              <Text style={[systemWeights.regular, { marginTop: 10 }]}>{details && details.descripcion}</Text>
               <Text style={[{ marginTop: 20, ...systemWeights.bold }, iOSUIKit.bodyEmphasized]}>Ingredientes:</Text>
-              
+
               <View style={{ paddingLeft: 15 }}>
                 <Paragraph>1. 1kg de harina</Paragraph>
                 <Paragraph>2. 15g de sal</Paragraph>
@@ -138,12 +138,14 @@ class DetailScreen extends React.Component {
           </ScrollView>
         </View>
         <View style={styles.contentFooter}>
-          <Button 
-            onPress={() => this.RBSheet.open()} 
-            style={{ backgroundColor: '#FBCB33' }} 
+          <Button
+            onPress={() => this.RBSheet.open()}
+            style={{ backgroundColor: '#FBCB33' }}
             color="#4a4a4a"
           >
-              AGREGAR POR S/.9
+              AGREGAR POR 
+            {' '}
+            {details && `S/.${details.precio_venta}`}
           </Button>
         </View>
 
@@ -156,12 +158,12 @@ class DetailScreen extends React.Component {
             <View style={styles.content}>
               <View style={{ flex: 1, flexDirection: 'row', }}>
                 <View style={{ flex: 2, justifyContent: 'center' }}>
-                  <Text style={{ ...systemWeights.bold }}>{detail && detail.name}</Text>
-                  <Text style={styles.time}>{`${15} min. aprox.`}</Text>
+                  <Text style={{ ...systemWeights.bold }}>{details && details.nombre}</Text>
+                  <Text style={styles.time}>{details && `${details.tiempo_aprox} min. aprox.`}</Text>
                 </View>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
-                  {detail && (
-                    <Image source={{ uri: detail.image_url }} style={styles.image} />
+                  {details && (
+                    <Image source={{ uri: 'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' }} style={styles.image} />
                   )}
                 </View>
               </View>
@@ -240,12 +242,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   price: {
-    width: 60, 
-    height: 60, 
-    borderRadius: 60, 
+    width: 60,
+    height: 60,
+    borderRadius: 60,
     backgroundColor: '#FBCB33',
-    alignItems: 'center', 
-    flex: 1, 
+    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
   },
   priceText: {
@@ -253,9 +255,9 @@ const styles = StyleSheet.create({
     ...iOSUIKit.bodyEmphasized,
   },
   contentFooter: {
-    flex: 1, 
-    alignItems: 'center', 
-    flexDirection: 'row', 
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'center',
   },
   time: {
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  data: state.dataDetail,
+  products: state.products,
 });
 
 const mapDispatchToProps = (dispatch) => {

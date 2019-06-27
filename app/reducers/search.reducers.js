@@ -2,20 +2,17 @@ import {
   FETCHING_DATA,
   FETCHING_DATA_SUCCESS,
   FETCHING_DATA_FAILURE,
-  FETCHING_DATA_MENU_SUCCESS,
-  FETCHING_DATA_MENU_DETAIL_SUCCESS,
+  FETCHING_DATA_SEARCH_SUCCESS,
 } from '../constants';
 
 const initialState = {
   data: [],
+  listResults: [],
   isFeching: false,
   error: false,
-  listProducts: [],
-  details: {},
-  productToday: {},
 };
 
-const menusReducer = (state = initialState, action) => {
+const searchReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCHING_DATA:
       return {
@@ -29,28 +26,10 @@ const menusReducer = (state = initialState, action) => {
         data: action.data,
         isFeching: false
       };
-    case FETCHING_DATA_MENU_SUCCESS:
-
-      const products = action.dataMenu;
-      var product = {};
-
-      products.map(d => {
-        if(d.plato_del_dia == 1) {
-          product = d;
-        }
-      });
-
+    case FETCHING_DATA_SEARCH_SUCCESS:
       return {
         ...state,
-        listProducts: products,
-        productToday: product,
-        isFeching: false
-      };
-
-    case FETCHING_DATA_MENU_DETAIL_SUCCESS:
-      return {
-        ...state,
-        details: action.dataMenuDetail,
+        listResults: action.dataSearch,
         isFeching: false
       };
     case FETCHING_DATA_FAILURE:
@@ -64,4 +43,4 @@ const menusReducer = (state = initialState, action) => {
   }
 };
 
-export default menusReducer;
+export default searchReducer;

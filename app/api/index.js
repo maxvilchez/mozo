@@ -1,23 +1,25 @@
-const params = {
-  location: 'Lima'
-};
 
-const query = Object.keys(params)
-  .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
-  .join('&');
+const server = 'http://192.168.1.144:8080';
 
-const MENUS = `https://api.yelp.com/v3/businesses/search?${query}`;
-const MENU_DETAIL = 'https://api.yelp.com/v3/businesses/';
-const TOKEN = '29l1GH32Y2MBz_x1NHaMYe-QY0YQvAyVkx1OwmCQXIAUw8Q93xYlj8GNBI6Kc-HWVLnRHr3Bj1i_9CR4iormr-LQm5CLmywKSde_WY6miWl5B4pgTLAX7Z-ht2bQXHYx';
+const MENUS = `${server}/ProyectoIntegrador/plato/listar`;
+const MENU_DETAIL = `${server}/ProyectoIntegrador/plato/listar/`; // + id
 
+const CATEGORIES = `${server}/ProyectoIntegrador/categoria/listar`;
+const CATEGORY_DETAIL = `${server}/ProyectoIntegrador/plato/listar/categoria/`; // + id
 
-const config = {
-  method: 'GET',
-  headers: { Authorization: `Bearer ${TOKEN}` },
-};
+const SEARCH_PRODUCTS = `${server}/ProyectoIntegrador/plato/listar/nombre/`; // + nombre
 
-export const fetchMenu = () => fetch(MENUS, config)
+export const fetchMenu = () => fetch(MENUS)
   .then(Response => Promise.all([Response, Response.json()]));
 
-export const fetchMenuDetail = id => fetch(`${MENU_DETAIL}${id}?${query}`, config)
+export const fetchMenuDetail = id => fetch(`${MENU_DETAIL}${id}`)
+  .then(Response => Promise.all([Response, Response.json()]));
+
+export const fetchCategories = () => fetch(CATEGORIES)
+  .then(Response => Promise.all([Response, Response.json()]));
+
+export const fetchCategoryDetail = id => fetch(`${CATEGORY_DETAIL}${id}`)
+  .then(Response => Promise.all([Response, Response.json()]));
+
+export const fetchSearchProducts = name => fetch(`${SEARCH_PRODUCTS}${name}`)
   .then(Response => Promise.all([Response, Response.json()]));

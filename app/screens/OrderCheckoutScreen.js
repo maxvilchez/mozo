@@ -7,7 +7,7 @@ import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
 
 import { changePayment } from '../actions';
 
-const API_URL = 'http://192.168.1.4:8080/ejemplo'
+const API_URL = 'http://192.168.1.144:8080/ProyectoIntegrador';
 
 class OrderCheckoutScreen extends React.Component {
   static navigationOptions = {
@@ -40,32 +40,30 @@ class OrderCheckoutScreen extends React.Component {
   }
 
   sendOrder = () => {
-
-    const { payment, table, time, username } = this.props.order;
+    const { table, time, username } = this.props.order;
     const { cart, total } = this.props.cart;
     
     const order = {
-      "nombre_mesa": username,
-      "nro_mesa": table,
-      "total": total,
-      "detallePedido": cart
+      nombre_mesa: username,
+      nro_mesa: table,
+      total,
+      detallePedido: cart
     };
     
     fetch(`${API_URL}/pedidos/`, {
       method: 'POST',
       headers: { 
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json' 
       },
       body: JSON.stringify(order)
     })
-    .then((response) => JSON.stringify(response.json())) 
-    .then((responseData) => {
-      console.log("response: " + responseData);  
-      this.props.navigation.navigate('OrderStatus', { time })
-    })
-    .catch((err) => { console.log(err); });
-
+      .then(response => JSON.stringify(response.json())) 
+      .then((responseData) => {
+        console.log(`response: ${responseData}`);  
+        this.props.navigation.navigate('OrderStatus', { time });
+      })
+      .catch((err) => { console.log(err); });
   }
 
   render() {

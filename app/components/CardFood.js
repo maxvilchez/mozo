@@ -7,9 +7,7 @@ const CardFood = ({ name, time, photo, details }) => (
     <Card.Cover source={{ uri: photo }} />
     <Card.Content>
       <Title>
-        { ((name).length > 25) 
-          ? (`${(name).substring(0, 25 - 3)}...`) 
-          : name }
+        { name }
       </Title>
       <Paragraph>
         {`${time} min apróx.`}
@@ -20,7 +18,7 @@ const CardFood = ({ name, time, photo, details }) => (
 
 const styles = StyleSheet.create({
   card: {
-    margin: 0,
+    marginBottom: 10,
   },
 });
 

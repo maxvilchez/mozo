@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, TextInput, Divider } from 'react-native-paper';
 import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
+import _ from 'lodash';
+
 import { removeFromCart, emptyCart, addOrder } from '../actions';
 
 import ItemCart from '../components/ItemCart';
@@ -85,9 +87,9 @@ class OrdenScreen extends React.Component {
                   <ItemCart key={d.id} item={d} callback={this.removeProduct} />
                 ))}
                 <View style={{ marginTop: 10 }}>
-                  <ItemTotal name="SubTotal" number={0} />
+                  <ItemTotal name="SubTotal" number={total - _.round(total * 0.18)} />
                   <Divider />
-                  <ItemTotal name="IGV" number={0} />
+                  <ItemTotal name="IGV" number={_.round(total * 0.18)} />
                   <Divider />
                   <ItemTotal name="Total" number={total} />
                 </View>
