@@ -57,7 +57,7 @@ class HomeScreen extends React.Component {
             {
               listCategories.map(d => (
                 <TouchableOpacity key={d.id} onPress={() => this.props.navigation.navigate('CategoryDetail', { id: d.id })}>
-                  <Category name={d.nombre} color="#b5e2e1" icon="md-beer" />
+                  <Category name={d.nombre} color={d.color} icon={d.icon} />
                 </TouchableOpacity>
               ))
             }

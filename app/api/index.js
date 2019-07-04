@@ -1,5 +1,5 @@
 
-const server = 'http://192.168.1.144:8080';
+const server = 'http://192.168.1.9:8080';
 
 const MENUS = `${server}/ProyectoIntegrador/plato/listar`;
 const MENU_DETAIL = `${server}/ProyectoIntegrador/plato/listar/`; // + id

@@ -7,7 +7,7 @@ import { iOSColors, iOSUIKit, systemWeights } from 'react-native-typography';
 
 import { changePayment } from '../actions';
 
-const API_URL = 'http://192.168.1.144:8080/ProyectoIntegrador';
+const API_URL = 'http://192.168.1.9:8080/ProyectoIntegrador';
 
 class OrderCheckoutScreen extends React.Component {
   static navigationOptions = {
